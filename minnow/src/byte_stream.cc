@@ -1,5 +1,5 @@
 #include <stdexcept>
-
+#include <iostream>
 #include "byte_stream.hh"
 
 using namespace std;
