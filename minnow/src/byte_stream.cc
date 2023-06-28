@@ -25,8 +25,7 @@ bool Writer::is_closed () const {
 }
 
 uint64_t Writer::available_capacity () const {
-    // Your code here.
-    return {};
+    return capacity_ - buffer.size ();
 }
 
 uint64_t Writer::bytes_pushed () const {
