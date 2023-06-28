@@ -12,7 +12,7 @@ void Writer::push (string data) {
 }
 
 void Writer::close () {
-    // Your code here.
+    closed = true;
 }
 
 void Writer::set_error () {
@@ -20,8 +20,7 @@ void Writer::set_error () {
 }
 
 bool Writer::is_closed () const {
-    // Your code here.
-    return {};
+    return closed;
 }
 
 uint64_t Writer::available_capacity () const {
