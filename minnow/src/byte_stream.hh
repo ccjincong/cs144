@@ -5,7 +5,6 @@
 #include <string>
 #include <string_view>
 #include <list>
-
 class Reader;
 
 class Writer;
@@ -13,8 +12,8 @@ class Writer;
 class ByteStream {
 protected:
     uint64_t capacity_;
-    std::list<std::string> buffer;
-    uint64_t buffer_len = 0;
+    std::deque<char> buffer;
+    uint64_t buffer_len=0;
 
     bool error = false;
     bool closed = false;
