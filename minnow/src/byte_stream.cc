@@ -1,73 +1,77 @@
 #include <stdexcept>
-#include <iostream>
+
 #include "byte_stream.hh"
-#include <cstring>
-#include <fstream>
 
 using namespace std;
 
-ByteStream::ByteStream (uint64_t capacity) : capacity_ (capacity) , buffer () {
+ByteStream::ByteStream( uint64_t capacity ) : capacity_( capacity ) {}
+
+void Writer::push( string data )
+{
+  // Your code here.
+  (void)data;
 }
 
-void Writer::push (string data) {
-    std::ofstream outfile("output.txt", std::ios::app);
-    outfile << data << std::endl;
-    outfile.close();
-    uint64_t push_size = min (available_capacity () , data.size ());
-    for (uint64_t i = 0; i < push_size; i++)
-        buffer.push_back (data[ i ]);
-
-    total_push += push_size;
-    buffer_len += push_size;
+void Writer::close()
+{
+  // Your code here.
 }
 
-void Writer::close () {
-    closed = true;
+void Writer::set_error()
+{
+  // Your code here.
 }
 
-void Writer::set_error () {
-    error = true;
+bool Writer::is_closed() const
+{
+  // Your code here.
+  return {};
 }
 
-bool Writer::is_closed () const {
-    return closed;
+uint64_t Writer::available_capacity() const
+{
+  // Your code here.
+  return {};
 }
 
-uint64_t Writer::available_capacity () const {
-    return capacity_ - buffer_len;
+uint64_t Writer::bytes_pushed() const
+{
+  // Your code here.
+  return {};
 }
 
-uint64_t Writer::bytes_pushed () const {
-    return total_push;
+string_view Reader::peek() const
+{
+  // Your code here.
+  return {};
 }
 
-
-string_view Reader::peek () const {
-    return std::string_view (&(buffer.front ()) , 1);
+bool Reader::is_finished() const
+{
+  // Your code here.
+  return {};
 }
 
-bool Reader::is_finished () const {
-    return closed == true && buffer_len == 0;
+bool Reader::has_error() const
+{
+  // Your code here.
+  return {};
 }
 
-bool Reader::has_error () const {
-    return error;
+void Reader::pop( uint64_t len )
+{
+  // Your code here.
+  (void)len;
 }
 
-void Reader::pop (uint64_t len) {
-    std::ofstream outfile("pop.txt", std::ios::app);
-    outfile << len << std::endl;
-    outfile.close();
-    total_pop += len;
-    buffer_len -= len;
-    for (uint64_t i = 0; i < len; i++)
-        buffer.pop_front ();
+uint64_t Reader::bytes_buffered() const
+{
+  // Your code here.
+  return {};
 }
 
-uint64_t Reader::bytes_buffered () const {
-    return buffer_len;
-}
-
-uint64_t Reader::bytes_popped () const {
-    return total_pop;
+uint64_t Reader::bytes_popped() const
+{
+  // Your code here.
+  return {};
 }
