@@ -11,7 +11,6 @@ class Writer;
 
 class ByteStream {
 protected:
-    uint64_t capacity_;
     std::deque<char> buffer;
     uint64_t buffer_len=0;
 
@@ -21,6 +20,7 @@ protected:
 
     uint64_t total_pop = 0;
 public:
+    uint64_t capacity_;
     explicit ByteStream (uint64_t capacity);
 
     // Helper functions (provided) to access the ByteStream's Reader and Writer interfaces

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-ByteStream::ByteStream (uint64_t capacity) : capacity_ (capacity) , buffer () {
+ByteStream::ByteStream (uint64_t capacity) : buffer () , capacity_ (capacity) {
 }
 
 void Writer::push (string data) {
