@@ -3,6 +3,33 @@
 #include "byte_stream.hh"
 
 #include <string>
+#include <unordered_map>
+
+class UnionFind {
+public:
+    UnionFind () : parent () {}
+
+    uint64_t find (uint64_t p) {
+        if ( p != parent[ p ] )
+            return parent[ p ] = find (parent[ p ]);
+        return p;
+    }
+
+    void unite (uint64_t p , uint64_t q) {
+        parent[ find (p) ] = find (q);
+    }
+
+    void update (uint64_t right) {
+        for (uint64_t i = right; i > 0; i--) {
+            if ( parent.count (i) != 0 )
+                return;
+            parent[ i ] = i;
+        }
+    }
+
+private:
+    std::unordered_map<uint64_t , uint64_t> parent;
+};
 
 class Reassembler {
 public:
@@ -31,8 +58,19 @@ public:
     // How many bytes are stored in the Reassembler itself?
     uint64_t bytes_pending () const;
 
+
+    uint64_t first_unacceptable_index (Writer &output);
+
+    Reassembler () : store () , uf () {}
+
 private:
-    std::list<std::pair<uint64_t , std::string>> store;
-    uint64_t push_index = 0;//可以push的当前index
+    uint64_t first_unassembled_index = 0;//没push的第一个index
+    uint64_t end_index = -1;
     uint64_t pending = 0; // 当前store里面字节总数
+    std::unordered_map<int , char> store;
+
+    UnionFind uf;
 };
+
+
+
