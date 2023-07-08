@@ -5,31 +5,6 @@
 #include <string>
 #include <unordered_map>
 
-class UnionFind {
-public:
-    UnionFind () : parent () {}
-
-    uint64_t find (uint64_t p) {
-        if ( p != parent[ p ] )
-            return parent[ p ] = find (parent[ p ]);
-        return p;
-    }
-
-    void unite (uint64_t p , uint64_t q) {
-        parent[ find (p) ] = find (q);
-    }
-
-    void update (uint64_t right) {
-        for (uint64_t i = right; i > 0; i--) {
-            if ( parent.count (i) != 0 )
-                return;
-            parent[ i ] = i;
-        }
-    }
-
-private:
-    std::unordered_map<uint64_t , uint64_t> parent;
-};
 
 class Reassembler {
 public:
@@ -61,15 +36,17 @@ public:
 
     uint64_t first_unacceptable_index (Writer &output);
 
-    Reassembler () : store () , uf () {}
+    Reassembler () : store () , flag () {}
 
 private:
     uint64_t first_unassembled_index = 0;//没push的第一个index
     uint64_t end_index = -1;
     uint64_t pending = 0; // 当前store里面字节总数
-    std::unordered_map<int , char> store;
 
-    UnionFind uf;
+    uint64_t ptr = 0; //循环缓冲区起始位置
+    std::vector<char> store;
+    std::vector<uint64_t> flag;
+
 };
 
 

@@ -5,7 +5,8 @@ using namespace std;
 
 void Reassembler::insert (uint64_t first_index , string data , bool is_last_substring , Writer &output) {
 
-    //uf.update (first_unacceptable_index (output));
+    if ( store.size () == 0 )
+        store.resize (output.capacity_ , '\0') , flag.resize (output.capacity_ , false);
 
     if ( is_last_substring == true )
         end_index = first_index + data.size ();
@@ -14,18 +15,21 @@ void Reassembler::insert (uint64_t first_index , string data , bool is_last_subs
     uint64_t r = std::min (first_unacceptable_index (output) , first_index + data.size ()); //右边界
 
     for (uint64_t i = l; i < r; i++) {
-        if ( store.count (i) == 0 ) {
-            store[ i ] = data[ i - first_index ];
+
+        uint64_t p = (i - first_unassembled_index + ptr) % output.capacity_;
+        if ( flag[ p ] == false ) {
+            store[ p ] = data[ i - first_index ];
             pending++;
+            flag[ p ] = true;
         }
-
-
     }
 
     std::string assemble_str = "";
-    while (store.count (first_unassembled_index) == 1) {
-        assemble_str += store[ first_unassembled_index ];
-        store.erase (first_unassembled_index);
+
+    while (flag[ ptr ] != false) {
+        assemble_str += store[ ptr ];
+        flag[ ptr ] = false;
+        ptr = (ptr + 1) % output.capacity_;
         first_unassembled_index++;
     }
 
@@ -34,8 +38,11 @@ void Reassembler::insert (uint64_t first_index , string data , bool is_last_subs
         pending -= assemble_str.size ();
     }
 
-    if ( first_unassembled_index == end_index )
+
+    if ( first_unassembled_index == end_index ) {
         output.close ();
+    }
+
 }
 
 
