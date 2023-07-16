@@ -15,6 +15,8 @@ public:
 
     Reassembler () : store () , flag () {}
 
+    uint64_t get_first_unassembled_index();
+
 private:
     uint64_t first_unassembled_index = 0;//没push的第一个index
     uint64_t end_index = -1;

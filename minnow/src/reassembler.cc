@@ -55,3 +55,6 @@ uint64_t Reassembler::first_unacceptable_index (Writer &output) {
     return first_unassembled_index + output.available_capacity ();
 }
 
+uint64_t Reassembler::get_first_unassembled_index () {
+    return first_unassembled_index ;
+}

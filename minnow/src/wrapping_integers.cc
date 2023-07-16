@@ -16,7 +16,7 @@ uint64_t Wrap32::unwrap (Wrap32 zero_point , uint64_t checkpoint) const {
 
     uint64_t seno = checkpoint - checkpoint_32 + len;
 
-    if ( checkpoint_32 > len && checkpoint_32 - len > uint32_t (1 << 31))
+    if ( checkpoint_32 > len && checkpoint_32 - len > uint32_t (1 << 31)) //1 默认是int类型
         seno += (1ull << 32);
 
     if ( checkpoint_32 < len && len - checkpoint_32 > uint32_t (1 << 31) && seno > (1ull << 32))
