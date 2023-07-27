@@ -1,5 +1,6 @@
 #include "tcp_receiver.hh"
 #include <cstdint>
+#include <fstream>
 
 using namespace std;
 
@@ -7,15 +8,21 @@ void TCPReceiver::receive (TCPSenderMessage message , Reassembler &reassembler ,
 
     if ( message.SYN == true ) {
         zero_point = message.seqno;
-        flag = true;
+        flag_SYN = true;
     }
 
-    if ( flag == true ) {
 
-        reassembler.insert (message.seqno.unwrap (zero_point , reassembler.get_first_unassembled_index ()) ,
-                            message.payload , message.FIN , inbound_stream);
+    if ( flag_SYN == true ) {
 
-        ackno = zero_point.wrap (reassembler.get_first_unassembled_index () + flag + message.FIN , zero_point);
+        uint64_t index = message.seqno.unwrap (zero_point , reassembler.get_first_unassembled_index ()); // 当前应该插的位置
+
+        if ( message.SYN == true ) // index 正常是要减一的。因为如果SYN和有效数据不是同时发送的话，第一个有效数据的index是1，但是reassembler
+                                   // 第一个是从0开始的，
+            reassembler.insert (0 , message.payload , message.FIN , inbound_stream);
+        else
+            reassembler.insert (index-1 , message.payload , message.FIN , inbound_stream);
+
+        ackno = zero_point.wrap (reassembler.get_first_unassembled_index () + 1 + message.FIN , zero_point); //SYN之后才会有回复，所以也需要写在判断里面
     }
 
     send (inbound_stream);

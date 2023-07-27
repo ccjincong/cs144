@@ -7,7 +7,9 @@ class Reassembler {
 public:
     void insert (uint64_t first_index , std::string data , bool is_last_substring , Writer &output);
 
-    // How many bytes are stored in the Reassembler itself?
+    // first_index ： 字符串第一个字符的index
+    // data： 数据
+    // is_last_substring： 是否是最后一个字符串
     uint64_t bytes_pending () const;
 
 

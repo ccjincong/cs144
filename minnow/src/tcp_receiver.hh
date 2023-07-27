@@ -19,5 +19,5 @@ public:
 private:
     Wrap32 zero_point{ 0 };
     std::optional<Wrap32> ackno {};
-    bool flag = false;
+    bool flag_SYN = false;
 };
