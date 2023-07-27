@@ -22,7 +22,9 @@ void TCPReceiver::receive (TCPSenderMessage message , Reassembler &reassembler ,
         else
             reassembler.insert (index-1 , message.payload , message.FIN , inbound_stream);
 
-        ackno = zero_point.wrap (reassembler.get_first_unassembled_index () + 1 + inbound_stream.is_closed() , zero_point); //SYN之后才会有回复，所以也需要写在判断里面
+        ackno = zero_point.wrap (reassembler.get_first_unassembled_index () + 1 + inbound_stream.is_closed() , zero_point);
+        //SYN之后才会有回复，所以也需要写在判断里面
+        //还要加一个这个inbound_stream.is_closed()，pdf里好像没说不知道为什么，
     }
 
     send (inbound_stream);
